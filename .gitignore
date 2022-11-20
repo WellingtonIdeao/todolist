@@ -1,0 +1,36 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Python # 
+*.py[cod] 
+*$py.class 
+
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+staticfiles
+
+# Distribution / packaging 
+dist/
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+
+# Test stuff:
+.coverage
+coverage.json
+*journal
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
