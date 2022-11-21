@@ -77,7 +77,7 @@ class TaskModelTests(TestCase):
     def test_task_string_representation(self):
         self.assertEqual(str(self.task),'title')
 
-     
 
+   
 
 
