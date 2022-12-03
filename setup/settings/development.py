@@ -22,4 +22,4 @@ DATABASES = {
     'default': env.db('SQLITE_URL')
 }
 # add a custom name for test database
-DATABASES['default'].update({'TEST': {'NAME': 'test_todolist_db'}})
+DATABASES['default'].update({'TEST': {'NAME': 'test_setup_db'}})
