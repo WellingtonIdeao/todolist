@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import Task, TEXT_MAX_LENGTH
+from tasks.models import Task, TEXT_MAX_LENGTH
 
 class TaskModelTestCase(TestCase):
 
