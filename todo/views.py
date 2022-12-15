@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView
-from tasks.models import Task
-from tasks.serializers import TaskSerializer
+from todo.models import Task
+from todo.serializers import TaskSerializer
 
 class TaskList(ListAPIView):
     queryset = Task.objects.all()
