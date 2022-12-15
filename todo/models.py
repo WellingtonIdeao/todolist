@@ -2,7 +2,7 @@ from django.db import models
 
 TEXT_MAX_LENGTH = 255
 
-class Task(models.Model):
+class TodoItem(models.Model):
     title = models.CharField(max_length=TEXT_MAX_LENGTH)
     description = models.TextField()
     done = models.BooleanField(default=False)

@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView
-from todo.models import Task
-from todo.serializers import TaskSerializer
+from todo.models import TodoItem
+from todo.serializers import TodoItemSerializer
 
-class TaskList(ListAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+class TodoItemList(ListAPIView):
+    queryset = TodoItem.objects.all()
+    serializer_class = TodoItemSerializer

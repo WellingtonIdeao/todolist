@@ -1,10 +1,10 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from todo.views import TaskList
+from todo.views import TodoItemList
 
 
 urlpatterns = [
-    path('tasks/', TaskList.as_view()),
+    path('todos/', TodoItemList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
