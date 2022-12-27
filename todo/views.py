@@ -1,12 +1,8 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import ModelViewSet
 from todo.models import TodoItem
 from todo.serializers import TodoItemSerializer
 
 
-class TodoItemList(ListCreateAPIView):
-    queryset = TodoItem.objects.all()
-    serializer_class = TodoItemSerializer
-
-class TodoItemDetail(RetrieveUpdateDestroyAPIView):
+class TodoItemCRUDViewSet(ModelViewSet):
     queryset = TodoItem.objects.all()
     serializer_class = TodoItemSerializer
