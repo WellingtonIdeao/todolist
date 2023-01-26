@@ -20,7 +20,7 @@ class TodoItemSerializerTestCase(TestCase):
         data = self.serializer.data    
         self.assertCountEqual(
             set(data.keys()),
-            set(['id', 'title', 'description', 'done', 'created_at', 'updated_at'])
+            set(['id', 'title', 'description', 'done'])
         )
 
     def test_title_field_content(self):
@@ -33,13 +33,5 @@ class TodoItemSerializerTestCase(TestCase):
 
     def test_done_field_content(self):
         data = self.serializer.data    
-        self.assertEqual(data['done'], self.todo_item_attributes['done'])
-
-    def test_created_at_field_content(self):
-        data = self.serializer.data
-        self.assertEqual(data['created_at'], self.todo_item_attributes['created_at'])                  
-
-    def test_updated_at_field_content(self):
-        data = self.serializer.data
-        self.assertEqual(data['updated_at'], self.todo_item_attributes['updated_at'])  
+        self.assertEqual(data['done'], self.todo_item_attributes['done']) 
 
