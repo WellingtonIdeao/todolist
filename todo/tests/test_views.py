@@ -48,6 +48,7 @@ class TodoItemListTestCase(APITestCase):
         self.assertEqual(response.headers['content-type'], 'application/json')
 
 
+
 class TodoItemRetrieveTestCase(APITestCase):
     
     @classmethod
@@ -80,13 +81,16 @@ class TodoItemRetrieveTestCase(APITestCase):
         serializer = TodoItemSerializer(instance=todo_item)
         self.assertEqual(response.data, serializer.data)
     
-    def test_list_todo_item_by_id_response_content_type_json(self):
+    def test_get_todo_item_by_id_response_content_type_json(self):
         response = self.client.get(self.url)
         self.assertEqual(response.headers['content-type'], 'application/json')
+
+    def test_get_todo_item_by_id_not_found(self):
+        url = reverse('todo-detail', kwargs={'pk': 2})   
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)    
     
              
-
-
 class TodoItemCreateTestCase(APITestCase):
 
     @classmethod
@@ -122,7 +126,14 @@ class TodoItemCreateTestCase(APITestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.headers['content-type'], 'application/json')
     
-         
+    def test_create_todo_item_invalid_data(self):
+        invalid_data = {
+             'title': 'title',
+        }
+        response = self.client.post(self.url, invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
 class TodoItemUpdateTestCase(APITestCase):
     
     @classmethod
@@ -184,7 +195,24 @@ class TodoItemUpdateTestCase(APITestCase):
         response = self.client.put(self.url, full_data)
         self.assertEqual(response.headers['content-type'], 'application/json')
     
-         
+    def test_todo_item_update_with_invalid_partial_data(self):
+        invalid_partial_data = { 
+            'title': 'title updated'
+        }
+        response = self.client.put(self.url, invalid_partial_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_todo_item_not_found_update(self):
+        full_data = { 
+            'title': 'title updated',
+            'description': 'description updated',
+            'done': True
+        }
+        url = reverse('todo-detail', kwargs={'pk': 2})   
+        response = self.client.put(url, full_data)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+                 
+
 
 class TodoItemPartialUpdateTestCase(APITestCase):
 
@@ -237,7 +265,14 @@ class TodoItemPartialUpdateTestCase(APITestCase):
         response = self.client.patch(self.url, partial_data)
         self.assertEqual(response.headers['content-type'], 'application/json')
                  
-    
+    def test_todo_item_not_found_partial_update_(self):
+        partial_data = { 
+            'title': 'title updated'
+        }
+        url = reverse('todo-detail', kwargs={'pk': 2})   
+        response = self.client.patch(url, partial_data)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+                 
 
 class TodoItemDeleteTestCase(APITestCase):
     
@@ -269,4 +304,8 @@ class TodoItemDeleteTestCase(APITestCase):
         response = self.client.delete(url_json)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)     
     
+    def test_todo_item_not_found_delete(self):
+        url = reverse('todo-detail', kwargs={'pk': 2})   
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)     
        
