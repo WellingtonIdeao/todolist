@@ -9,7 +9,10 @@ router.register(r'todos', TodoItemCRUDViewSet, basename='todo')
 
 urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='scheme'),
-    path('swagger/', SpectacularSwaggerView.as_view(url_name='scheme'),
-         name='swagger-ui'),
+    path(
+        'swagger/',
+        SpectacularSwaggerView.as_view(url_name='scheme'),
+        name='swagger-ui',
+    ),
 ]
 urlpatterns += router.urls

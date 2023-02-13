@@ -4,7 +4,6 @@ from todo.models import TEXT_MAX_LENGTH, TodoItem
 
 
 class TodoItemTestCase(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         cls.todo_item = TodoItem(title='title')
@@ -38,7 +37,8 @@ class TodoItemTestCase(TestCase):
 
     def test_created_at_set_now_first_time_created(self):
         set_now_first_time_created = self.todo_item._meta.get_field(
-            'created_at').auto_now_add
+            'created_at'
+        ).auto_now_add
         self.assertTrue(set_now_first_time_created)
 
     def test_has_updated_at(self):
@@ -47,7 +47,8 @@ class TodoItemTestCase(TestCase):
 
     def test_updated_at_set_now_every_time_saved(self):
         set_now_every_time_saved = self.todo_item._meta.get_field(
-            'updated_at').auto_now
+            'updated_at'
+        ).auto_now
         self.assertTrue(set_now_every_time_saved)
 
     def test_task_string_representation(self):

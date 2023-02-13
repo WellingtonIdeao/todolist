@@ -8,7 +8,8 @@ class TodoItem(models.Model):
     description = models.TextField()
     done = models.BooleanField(default=False)
     created_at = models.DateTimeField(
-        verbose_name='createdAt', auto_now_add=True)
+        verbose_name='createdAt', auto_now_add=True
+    )
     updated_at = models.DateTimeField(verbose_name='updatedAt', auto_now=True)
 
     class Meta:
