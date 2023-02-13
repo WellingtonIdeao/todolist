@@ -1,6 +1,6 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework.routers import DefaultRouter
 from todo.views import TodoItemCRUDViewSet
 
 router = DefaultRouter()

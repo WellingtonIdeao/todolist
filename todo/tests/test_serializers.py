@@ -2,6 +2,7 @@ from django.test import TestCase
 from todo.models import TodoItem
 from todo.serializers import TodoItemSerializer
 
+
 class TodoItemSerializerTestCase(TestCase):
 
     @classmethod

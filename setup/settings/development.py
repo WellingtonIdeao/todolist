@@ -1,5 +1,5 @@
-from .base import *
 import environ
+from .base import *
 
 # read .env file in this directory.
 environ.Env.read_env()

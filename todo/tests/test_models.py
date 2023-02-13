@@ -1,5 +1,6 @@
 from django.test import TestCase
-from todo.models import TodoItem, TEXT_MAX_LENGTH
+from todo.models import TEXT_MAX_LENGTH, TodoItem
+
 
 class TodoItemTestCase(TestCase):
 

@@ -1,6 +1,7 @@
 from django.test import TestCase
 from todo.models import TodoItem
 
+
 class TodoItemFormTestCase(TestCase):
     
     @classmethod
