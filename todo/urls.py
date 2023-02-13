@@ -4,10 +4,11 @@ from rest_framework.routers import DefaultRouter
 from todo.views import TodoItemCRUDViewSet
 
 router = DefaultRouter()
-router.register(r'todos',TodoItemCRUDViewSet, basename='todo')
+router.register(r'todos', TodoItemCRUDViewSet, basename='todo')
 
 urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='scheme'),
-    path('swagger/', SpectacularSwaggerView.as_view(url_name='scheme'), name='swagger-ui'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='scheme'),
+         name='swagger-ui'),
 ]
 urlpatterns += router.urls

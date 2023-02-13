@@ -18,7 +18,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-     # read os.environ['SQLITE_URL']
+    # read os.environ['SQLITE_URL']
     'default': env.db('SQLITE_URL')
 }
 # add a custom name for test database

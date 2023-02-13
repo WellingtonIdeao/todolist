@@ -262,7 +262,7 @@ class SmokeAPITestcase(APITestCase):
 
     def test_get_todo_item_by_id_with_format_parameter_json(self):
         format_param = {'format': 'json'}
-        
+
         response = self.client.get(self.url_detail, format_param)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -278,13 +278,13 @@ class SmokeAPITestcase(APITestCase):
 
     def test_create_todo_item_format_parameter_json(self):
         url_format_param = self.url_list+'?format=json'
-        
+
         response = self.client.post(url_format_param, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_todo_item_with_json_format_suffixe(self):
         url_json = self.url_list[:-1] + '.json'
-        
+
         response = self.client.post(url_json, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -304,7 +304,7 @@ class SmokeAPITestcase(APITestCase):
             'done': True
         }
         url_format_param = self.url_detail+'?format=json'
-        
+
         response = self.client.put(url_format_param, full_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -315,7 +315,7 @@ class SmokeAPITestcase(APITestCase):
             'done': True
         }
         url_json = self.url_detail[:-1] + '.json'
-        
+
         response = self.client.put(url_json, full_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -331,7 +331,7 @@ class SmokeAPITestcase(APITestCase):
             'title': 'title updated'
         }
         url_format_param = self.url_detail+'?format=json'
-        
+
         response = self.client.patch(url_format_param, partial_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -340,7 +340,7 @@ class SmokeAPITestcase(APITestCase):
             'title': 'title updated'
         }
         url_json = self.url_detail[:-1] + '.json'
-        
+
         response = self.client.patch(url_json, partial_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -350,12 +350,12 @@ class SmokeAPITestcase(APITestCase):
 
     def test_delete_todo_item_with_format_parameter_json(self):
         url_format_param = self.url_detail+'?format=json'
-        
+
         response = self.client.delete(url_format_param)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_todo_item_with_json_format_suffixe(self):
         url_json = self.url_detail[:-1] + '.json'
-        
+
         response = self.client.delete(url_json)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

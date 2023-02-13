@@ -3,7 +3,7 @@ from todo.models import TodoItem
 
 
 class TodoItemFormTestCase(TestCase):
-    
+
     @classmethod
     def setUpTestData(cls):
         cls.todo_item = TodoItem(title='title')
@@ -18,12 +18,12 @@ class TodoItemFormTestCase(TestCase):
 
     def test_description_label(self):
         desc_label = self.todo_item._meta.get_field('description').verbose_name
-        self.assertEqual(desc_label, 'description')         
-    
+        self.assertEqual(desc_label, 'description')
+
     def test_description_is_required(self):
         desc_can_empty = self.todo_item._meta.get_field('description').blank
         self.assertFalse(desc_can_empty)
-    
+
     def test_done_label(self):
         done_label = self.todo_item._meta.get_field('done').verbose_name
         self.assertEqual(done_label, 'done')
@@ -33,10 +33,11 @@ class TodoItemFormTestCase(TestCase):
         self.assertFalse(done_can_empty)
 
     def test_created_at_label(self):
-        created_at_label = self.todo_item._meta.get_field('created_at').verbose_name
+        created_at_label = self.todo_item._meta.get_field(
+            'created_at').verbose_name
         self.assertEqual(created_at_label, 'createdAt')
 
     def test_updated_at_label(self):
-        updated_at_label = self.todo_item._meta.get_field('updated_at').verbose_name
-        self.assertEqual(updated_at_label, 'updatedAt')                  
-        
+        updated_at_label = self.todo_item._meta.get_field(
+            'updated_at').verbose_name
+        self.assertEqual(updated_at_label, 'updatedAt')
