@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "todolist"
+version = "0.0.1"
+description = "Todo list API"
+authors = ["Wellington Ideão <wellington.ideao@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1.6"
+django-environ = "^0.9.0"
+djangorestframework = "^3.14.0"
+drf-spectacular = "^0.25.1"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
