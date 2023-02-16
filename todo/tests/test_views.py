@@ -28,7 +28,7 @@ class TodoItemListTestCase(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.headers['content-type'], 'application/json')
 
-    def test_response_header_allow_GET(self):
+    def test_response_header_allow_get(self):
         response = self.client.get(self.url)
         self.assertTrue('GET' in response.headers['allow'])
 
@@ -59,7 +59,7 @@ class TodoItemRetrieveTestCase(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.headers['content-type'], 'application/json')
 
-    def test_response_header_allow_GET(self):
+    def test_response_header_allow_get(self):
         response = self.client.get(self.url)
         self.assertTrue('GET' in response.headers['allow'])
 
@@ -91,7 +91,7 @@ class TodoItemCreateTestCase(APITestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.headers['content-type'], 'application/json')
 
-    def test_response_header_allow_POST(self):
+    def test_response_header_allow_post(self):
         response = self.client.post(self.url, self.data)
         self.assertTrue('POST' in response.headers['allow'])
 
@@ -142,7 +142,7 @@ class TodoItemUpdateTestCase(APITestCase):
         response = self.client.put(self.url, full_data)
         self.assertEqual(response.headers['content-type'], 'application/json')
 
-    def test_response_header_allow_PUT(self):
+    def test_response_header_allow_put(self):
         full_data = {
             'title': 'title updated',
             'description': 'description updated',
@@ -181,7 +181,7 @@ class TodoItemPartialUpdateTestCase(APITestCase):
         response = self.client.patch(self.url, partial_data)
         self.assertEqual(response.headers['content-type'], 'application/json')
 
-    def test_response_header_allow_PATCH(self):
+    def test_response_header_allow_patch(self):
         partial_data = {'title': 'title updated'}
         response = self.client.patch(self.url, partial_data)
         self.assertTrue('PATCH' in response.headers['allow'])
@@ -207,7 +207,7 @@ class TodoItemDeleteTestCase(APITestCase):
         response = self.client.delete(self.url)
         self.assertEqual(response.data, None)
 
-    def test_response_header_allow_DELETE(self):
+    def test_response_header_allow_delete(self):
         response = self.client.delete(self.url)
         self.assertTrue('DELETE' in response.headers['allow'])
 
