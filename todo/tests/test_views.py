@@ -1,9 +1,10 @@
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APIRequestFactory, APITestCase
 
 from todo.models import TodoItem
 from todo.serializers import TodoItemSerializer
+from todo.views import TodoItemCRUDViewSet
 
 
 class TodoItemListTests(APITestCase):
@@ -143,6 +144,14 @@ class TodoItemCreateTests(APITestCase):
         response = self.client.post(self.url, self.data)
         self.assertTrue('POST' in response.headers['allow'])
 
+    def test_create_a_todo_item_request_content_type_is_json(self):
+        factory = APIRequestFactory()
+        request = factory.post(self.url, self.data, format='json')
+        post_view = TodoItemCRUDViewSet.as_view({'post': 'create'})
+        response = post_view(request)
+        self.assertEqual(request.content_type, 'application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
 
 class TodoItemUpdateTests(APITestCase):
     @classmethod
@@ -230,6 +239,21 @@ class TodoItemUpdateTests(APITestCase):
         response = self.client.put(self.url, full_data)
         self.assertTrue('PUT' in response.headers['allow'])
 
+    def test_update_a_todo_item_request_content_type_is_json(self):
+        factory = APIRequestFactory()
+        full_data = {
+            'title': 'title updated',
+            'description': 'description updated',
+            'done': True,
+        }
+        url = reverse('todo-list')
+        request = factory.put(url, full_data, format='json')
+        update_view = TodoItemCRUDViewSet.as_view({'put': 'update'})
+
+        response = update_view(request, pk=1)
+        self.assertEqual(request.content_type, 'application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class TodoItemPartialUpdateTests(APITestCase):
     @classmethod
@@ -283,6 +307,20 @@ class TodoItemPartialUpdateTests(APITestCase):
         partial_data = {'title': 'title updated'}
         response = self.client.patch(self.url, partial_data)
         self.assertTrue('PATCH' in response.headers['allow'])
+
+    def test_partial_update_todo_item_request_content_type_is_json(self):
+        factory = APIRequestFactory()
+        partial_data = {'title': 'title updated'}
+
+        url = reverse('todo-list')
+        request = factory.patch(url, partial_data, format='json')
+        partial_update_view = TodoItemCRUDViewSet.as_view(
+            {'patch': 'partial_update'}
+        )
+
+        response = partial_update_view(request, pk=1)
+        self.assertEqual(request.content_type, 'application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TodoItemDeleteTests(APITestCase):
