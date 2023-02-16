@@ -6,7 +6,7 @@ from todo.models import TodoItem
 from todo.serializers import TodoItemSerializer
 
 
-class TodoItemListTestCase(APITestCase):
+class TodoItemListTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-list')
@@ -17,6 +17,22 @@ class TodoItemListTestCase(APITestCase):
         }
         for i in range(10):
             TodoItem.objects.create(**cls.data)
+
+    def test_list_all_todo_items(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_list_all_todo_items_with_url_parameter_json(self):
+        param = {'format': 'json'}
+
+        response = self.client.get(self.url, param)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_list_all_todo_items_with_url_suffixe_dot_json(self):
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.get(url_plus_json)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_list_all_todo_items_response_payload(self):
         queryset = TodoItem.objects.all()
@@ -33,7 +49,7 @@ class TodoItemListTestCase(APITestCase):
         self.assertTrue('GET' in response.headers['allow'])
 
 
-class TodoItemRetrieveTestCase(APITestCase):
+class TodoItemRetrieveTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-detail', kwargs={'pk': 1})
@@ -43,6 +59,22 @@ class TodoItemRetrieveTestCase(APITestCase):
             'done': False,
         }
         TodoItem.objects.create(**cls.data)
+
+    def test_retrieve_a_todo_item(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_retrieve_a_todo_item_with_url_parameter_json(self):
+        param = {'format': 'json'}
+
+        response = self.client.get(self.url, param)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_retrieve_a_todo_item_with_url_suffixe_dot_json(self):
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.get(url_plus_json)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_todo_item_with_invalid_id(self):
         url = reverse('todo-detail', kwargs={'pk': 2})
@@ -64,7 +96,7 @@ class TodoItemRetrieveTestCase(APITestCase):
         self.assertTrue('GET' in response.headers['allow'])
 
 
-class TodoItemCreateTestCase(APITestCase):
+class TodoItemCreateTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-list')
@@ -73,6 +105,22 @@ class TodoItemCreateTestCase(APITestCase):
             'description': 'description',
             'done': False,
         }
+
+    def test_create_a_todo_item(self):
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_a_todo_item_with_url_parameter_json(self):
+        url_plus_param = self.url + '?format=json'
+
+        response = self.client.post(url_plus_param, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_a_todo_item_with_url_suffixe_dot_json(self):
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.post(url_plus_json, self.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_no_create_todo_item_with_invalid_data(self):
         invalid_data = {
@@ -96,7 +144,7 @@ class TodoItemCreateTestCase(APITestCase):
         self.assertTrue('POST' in response.headers['allow'])
 
 
-class TodoItemUpdateTestCase(APITestCase):
+class TodoItemUpdateTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-detail', kwargs={'pk': 1})
@@ -106,6 +154,37 @@ class TodoItemUpdateTestCase(APITestCase):
             'done': False,
         }
         TodoItem.objects.create(**cls.data)
+
+    def test_update_a_todo_item(self):
+        full_data = {
+            'title': 'title updated',
+            'description': 'description updated',
+            'done': True,
+        }
+        response = self.client.put(self.url, full_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_a_todo_item_with_url_parameter_json(self):
+        full_data = {
+            'title': 'title updated',
+            'description': 'description updated',
+            'done': True,
+        }
+        url_plus_param = self.url + '?format=json'
+
+        response = self.client.put(url_plus_param, full_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_a_todo_item_with_url_suffixe_dot_json(self):
+        full_data = {
+            'title': 'title updated',
+            'description': 'description updated',
+            'done': True,
+        }
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.put(url_plus_json, full_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_todo_item_with_invalid_id(self):
         full_data = {
@@ -152,7 +231,7 @@ class TodoItemUpdateTestCase(APITestCase):
         self.assertTrue('PUT' in response.headers['allow'])
 
 
-class TodoItemPartialUpdateTestCase(APITestCase):
+class TodoItemPartialUpdateTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-detail', kwargs={'pk': 1})
@@ -162,6 +241,25 @@ class TodoItemPartialUpdateTestCase(APITestCase):
             'done': False,
         }
         TodoItem.objects.create(**cls.data)
+
+    def test_partial_update_todo_item(self):
+        partial_data = {'title': 'title updated'}
+        response = self.client.patch(self.url, partial_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_partial_update_todo_item_with_url_parameter_json(self):
+        partial_data = {'title': 'title updated'}
+        url_plus_param = self.url + '?format=json'
+
+        response = self.client.patch(url_plus_param, partial_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_partial_update_todo_item_with_url_suffixe_dot_json(self):
+        partial_data = {'title': 'title updated'}
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.patch(url_plus_json, partial_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_partial_update_todo_item_with_invalid_id(self):
         partial_data = {'title': 'title updated'}
@@ -187,7 +285,7 @@ class TodoItemPartialUpdateTestCase(APITestCase):
         self.assertTrue('PATCH' in response.headers['allow'])
 
 
-class TodoItemDeleteTestCase(APITestCase):
+class TodoItemDeleteTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse('todo-detail', kwargs={'pk': 1})
@@ -197,6 +295,22 @@ class TodoItemDeleteTestCase(APITestCase):
             'done': False,
         }
         TodoItem.objects.create(**cls.data)
+
+    def test_delete_a_todo_item(self):
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_a_todo_item_with_url_parameter_json(self):
+        url_plus_param = self.url + '?format=json'
+
+        response = self.client.delete(url_plus_param)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_a_todo_item_with_url_suffixe_dot_json(self):
+        url_plus_json = self.url[:-1] + '.json'
+
+        response = self.client.delete(url_plus_json)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_todo_item_with_invalid_id(self):
         url = reverse('todo-detail', kwargs={'pk': 2})
@@ -210,130 +324,3 @@ class TodoItemDeleteTestCase(APITestCase):
     def test_response_header_allow_delete(self):
         response = self.client.delete(self.url)
         self.assertTrue('DELETE' in response.headers['allow'])
-
-
-class SmokeAPITestcase(APITestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.url_list = reverse('todo-list')
-        cls.url_detail = reverse('todo-detail', kwargs={'pk': 1})
-        cls.data = {
-            'title': 'title',
-            'description': 'description',
-            'done': False,
-        }
-        TodoItem.objects.create(**cls.data)
-
-    def test_list_all_todo_items(self):
-        response = self.client.get(self.url_list)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_list_all_todo_items_with_format_parameter_json(self):
-        format_param = {'format': 'json'}
-
-        response = self.client.get(self.url_list, format_param)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_list_all_todo_items_with_json_format_suffixe(self):
-        url_json = self.url_list[:-1] + '.json'
-
-        response = self.client.get(url_json)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_todo_item_by_id(self):
-        response = self.client.get(self.url_detail)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_todo_item_by_id_with_format_parameter_json(self):
-        format_param = {'format': 'json'}
-
-        response = self.client.get(self.url_detail, format_param)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_todo_item_by_id_with_json_format_suffixe(self):
-        url_json = self.url_detail[:-1] + '.json'
-
-        response = self.client.get(url_json)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_create_todo_item(self):
-        response = self.client.post(self.url_list, self.data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_create_todo_item_format_parameter_json(self):
-        url_format_param = self.url_list + '?format=json'
-
-        response = self.client.post(url_format_param, self.data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_create_todo_item_with_json_format_suffixe(self):
-        url_json = self.url_list[:-1] + '.json'
-
-        response = self.client.post(url_json, self.data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_update_todo_item(self):
-        full_data = {
-            'title': 'title updated',
-            'description': 'description updated',
-            'done': True,
-        }
-        response = self.client.put(self.url_detail, full_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_update_todo_item_with_format_parameter_json(self):
-        full_data = {
-            'title': 'title updated',
-            'description': 'description updated',
-            'done': True,
-        }
-        url_format_param = self.url_detail + '?format=json'
-
-        response = self.client.put(url_format_param, full_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_update_todo_item_with_json_format_suffixe(self):
-        full_data = {
-            'title': 'title updated',
-            'description': 'description updated',
-            'done': True,
-        }
-        url_json = self.url_detail[:-1] + '.json'
-
-        response = self.client.put(url_json, full_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_partial_update_todo_item(self):
-        partial_data = {'title': 'title updated'}
-        response = self.client.patch(self.url_detail, partial_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_partial_update_todo_item_with_format_parameter_json(self):
-        partial_data = {'title': 'title updated'}
-        url_format_param = self.url_detail + '?format=json'
-
-        response = self.client.patch(url_format_param, partial_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_partial_update_todo_item_with_json_format_suffixe(self):
-        partial_data = {'title': 'title updated'}
-        url_json = self.url_detail[:-1] + '.json'
-
-        response = self.client.patch(url_json, partial_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_delete_todo_item(self):
-        response = self.client.delete(self.url_detail)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    def test_delete_todo_item_with_format_parameter_json(self):
-        url_format_param = self.url_detail + '?format=json'
-
-        response = self.client.delete(url_format_param)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    def test_delete_todo_item_with_json_format_suffixe(self):
-        url_json = self.url_detail[:-1] + '.json'
-
-        response = self.client.delete(url_json)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
