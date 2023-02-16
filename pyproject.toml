@@ -14,6 +14,9 @@ django = "4.1.7"
 
 
 
+[tool.poetry.group.dev.dependencies]
+pip-audit = "^2.4.14"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
