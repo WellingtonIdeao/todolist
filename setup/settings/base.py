@@ -109,6 +109,9 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 4,
     'DATETIME_FORMAT': '%a, %d %b %Y %H:%M:%S',
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Todo list API',
