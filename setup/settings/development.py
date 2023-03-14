@@ -20,7 +20,8 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 DATABASES = {
     # read os.environ['SQLITE_URL']
-    'default': env.db('SQLITE_URL')
+    #'default': env.db('SQLITE_URL')
+    'default': env.db()    
 }
 # add a custom name for test database
 DATABASES['default'].update({'TEST': {'NAME': 'test_setup_db'}})
