@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    container_name: web
+    command: 
+      sh -c  "python manage.py makemigrations &&
+              python manage.py migrate && 
+              python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    depends_on:
+      - db_postgresql  
+
+  db_postgresql:
+    image: postgres
+    container_name: db_postgresql
+    volumes:
+      - todolist-postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  todolist-postgres:
+
+
